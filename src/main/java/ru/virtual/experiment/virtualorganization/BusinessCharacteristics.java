@@ -5,10 +5,29 @@ import java.util.Random;
 public class BusinessCharacteristics implements BusinessProcessInterface{
     private double[]durationMap;// Создаем одномерный массив для хранения значений длительности элементарных операций.
     private double planningHorizon;// Создается переменная для определения горизонта планирования.
+    private int numberOfSubjects;// Переменная для определения численности персонала.
     private double budgetWorkTime;// Создается переменная для определения бюджета рабочего времени.
     private double realWorkLoad;// Cоздается переменная для определения продолжительности поиска альтернатив по закону Хика-Хаймана.
     private int globalNumberOfOperation;// Создается переменная для определения общей численности элементарных операций.
     private int numberOfOperation;// Создается переменная для определения средней численности элементарных операций.
+    public void BusinessCharacteristics(){
+        this.planningHorizon = 0;
+        this.numberOfOperation = 0;
+        this.globalNumberOfOperation = 0;
+    }
+    public void BusinessCharacteristics(int numberOfSubjects, double planningHorizon, int numberOfOperation){
+        this.planningHorizon = planningHorizon;
+        this.numberOfOperation = numberOfOperation;
+        this.globalNumberOfOperation = numberOfSubjects * numberOfOperation;
+    }
+
+    public int getNumberOfSubjects() {
+        return numberOfSubjects;
+    }
+
+    public void setNumberOfSubjects(int numberOfSubjects) {
+        this.numberOfSubjects = numberOfSubjects;
+    }
 
     Random rand = new Random();
     @Override

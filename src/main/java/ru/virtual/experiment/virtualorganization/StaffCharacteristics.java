@@ -10,8 +10,7 @@ public class StaffCharacteristics implements SubjectInterface{
     private double[][]kompetence;// Создаем двумерный массив для хранения показателей компетенций персонала.
 
     public void StaffCharacteristics(){
-        numberOfSubjects = 0;
-        numberOfOperation = 0;
+
     }
     public void StaffCharacteristics(int NumberOfSubjects, int NumberOfOperation){
         setKompetence(NumberOfSubjects, NumberOfOperation);
