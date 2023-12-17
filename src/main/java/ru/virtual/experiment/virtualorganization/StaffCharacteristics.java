@@ -7,14 +7,26 @@ public class StaffCharacteristics implements SubjectInterface{
     private int numberOfSubjects;// Переменная для определения численности персонала.
     private int numberOfOperation;// Переменная для определения количества элементарных операций технологического процесса (среднее значение на одного сотрудника).
     Map<Integer, Double> doubleMap;// Создаем hash map для хранения пар id сотрудника - уровень его загруженности.
+
     private double[][]kompetence;// Создаем двумерный массив для хранения показателей компетенций персонала.
+
+    public StaffCharacteristics(int numberOfSubjects, int numberOfOperation) {
+        setKompetence(NumberOfSubjects, NumberOfOperation);
+    }
 
     public void StaffCharacteristics(){
 
     }
-    public void StaffCharacteristics(int NumberOfSubjects, int NumberOfOperation){
-        setKompetence(NumberOfSubjects, NumberOfOperation);
+
+    public Map<Integer, Double> getDoubleMap() {
+        return doubleMap;
     }
+
+    public void setDoubleMap(Map<Integer, Double> doubleMap) {
+        this.doubleMap = doubleMap;
+    }
+
+
     @Override
     public void setNumberOfSubjects(int NumberOfSubjects) {
     this.numberOfSubjects = NumberOfSubjects;
@@ -59,6 +71,10 @@ public class StaffCharacteristics implements SubjectInterface{
             }
         }
         return min;
+    }
+
+    public void setKompetence(double[][] kompetence) {
+        this.kompetence = kompetence;
     }
 
     @Override

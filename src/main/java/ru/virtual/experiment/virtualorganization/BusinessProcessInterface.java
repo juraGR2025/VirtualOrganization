@@ -9,7 +9,7 @@ public interface BusinessProcessInterface {
     double getPlanningHorizon();// Метод возвращает значение горизонта планирования для деловых процессов организации.
     void setNumberOfOperation(int numberOfOperation);// Метод устанавливает количество элементарных операций.
     int getNumberOfOperation();// Метод возвращает количество элементарных операций.
-    void setDurationOfOperations();// Метод устанавливает продолжительность элементарной операции.
+    void setDurationOfOperations(double budgetWorkTime);// Метод устанавливает продолжительность элементарной операции.
     double getDurationOfOperation(int id);// Метод возвращает продолжительность элементарной операции по ее id.
     double[] getDurationMap();// Метод возвращает массив продолжительности каждой элементарной операции.
 

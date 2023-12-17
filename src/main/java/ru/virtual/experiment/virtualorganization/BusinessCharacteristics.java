@@ -10,16 +10,17 @@ public class BusinessCharacteristics implements BusinessProcessInterface{
     private double realWorkLoad;// Cоздается переменная для определения продолжительности поиска альтернатив по закону Хика-Хаймана.
     private int globalNumberOfOperation;// Создается переменная для определения общей численности элементарных операций.
     private int numberOfOperation;// Создается переменная для определения средней численности элементарных операций.
-    public void BusinessCharacteristics(){
-        this.planningHorizon = 0;
-        this.numberOfOperation = 0;
-        this.globalNumberOfOperation = 0;
-    }
-    public void BusinessCharacteristics(int numberOfSubjects, double planningHorizon, int numberOfOperation){
+
+    public BusinessCharacteristics(int numberOfSubjects, double planningHorizon, int numberOfOperation) {
         this.planningHorizon = planningHorizon;
         this.numberOfOperation = numberOfOperation;
         this.globalNumberOfOperation = numberOfSubjects * numberOfOperation;
+        this.budgetWorkTime = planningHorizon * this.globalNumberOfOperation;
+        setDurationOfOperations(this.budgetWorkTime);
     }
+
+    public void BusinessCharacteristics(){
+     }
 
     public int getNumberOfSubjects() {
         return numberOfSubjects;
@@ -72,7 +73,7 @@ public class BusinessCharacteristics implements BusinessProcessInterface{
     }
 
     @Override
-    public void setDurationOfOperations() {
+    public void setDurationOfOperations(double budgetWorkTime) {
         double duration = budgetWorkTime;
         for(int i = 0; i < globalNumberOfOperation; i++){
             if(i == globalNumberOfOperation - 1){
