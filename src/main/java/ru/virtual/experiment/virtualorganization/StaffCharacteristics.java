@@ -6,7 +6,7 @@ public class StaffCharacteristics implements SubjectInterface{
     // Задаем поля класса.
     private int numberOfSubjects;// Переменная для определения численности персонала.
     private int numberOfOperation;// Переменная для определения количества элементарных операций технологического процесса (среднее значение на одного сотрудника).
-    Map<Integer, Double> doubleMap;// Создаем hash map для хранения пар id сотрудника - уровень его загруженности.
+    Map<Integer, Employee> doubleMap;// Создаем hash map для хранения пар id сотрудника - уровень его загруженности.
 
     private double[][]kompetence;// Создаем двумерный массив для хранения показателей компетенций персонала.
 
@@ -18,12 +18,14 @@ public class StaffCharacteristics implements SubjectInterface{
 
     }
 
-    public Map<Integer, Double> getDoubleMap() {
+    public Map<Integer, Employee> getDoubleMap() {
         return doubleMap;
     }
 
-    public void setDoubleMap(Map<Integer, Double> doubleMap) {
+    public void setDoubleMap(Map<Integer, Employee> doubleMap) {
+
         this.doubleMap = doubleMap;
+
     }
 
 
@@ -52,14 +54,22 @@ public class StaffCharacteristics implements SubjectInterface{
     }
 
     @Override
-    public double getMaxKompetence(int id) {
+    public int getIdMaxKompetence(int id) { // Метод принимает номер операции на входе и возвращает номер сотрудника с максимальной компетенцией по этой операции.
         double max = kompetence[0][id];
+        int idEmployee = 0;
         for(int i = 0; i < numberOfSubjects; i++){
             if(max < kompetence[i][id]){
                 max = kompetence[i][id];
+                idEmployee = i;
             }
         }
-        return max;
+        return idEmployee;
+    }
+
+    @Override
+    public double getEmployeeKompetence(int idEmployee, int idOperation) {
+        double employeeKompetence = kompetence[idEmployee][idOperation];
+        return employeeKompetence;
     }
 
     @Override
@@ -78,13 +88,21 @@ public class StaffCharacteristics implements SubjectInterface{
     }
 
     @Override
-    public double employeeWorkloadTime(double directWorkTime, double employeeKompetence) {
-        return directWorkTime + directWorkTime * (1 - employeeKompetence);
+    public double employeeWorkloadTime(double directWorkTime, double PlanningHorizon, double employeeKompetence, int idOperation, int idEmployee) {
+        double empWorkT = directWorkTime + directWorkTime * (1 - employeeKompetence);
+        double realEmployeeWorkloadTime = doubleMap.get(idEmployee).getRealEmployeeWorkloadTime() + empWorkT;
+        Employee emp = new Employee();
+        emp.setRealEmployeeWorkloadTime(realEmployeeWorkloadTime);
+        double loadFactor = realEmployeeWorkloadTime / PlanningHorizon;
+        emp.setLoadFactor(loadFactor);
+        doubleMap.put(idEmployee, emp);
+        return empWorkT;
     }
 
     @Override
     public double getLoadFactor(int idEmployee, double PlanningHorizon) {
-        return doubleMap.get(idEmployee) / PlanningHorizon;
+
+        return doubleMap.get(idEmployee).getRealEmployeeWorkloadTime() / PlanningHorizon;
     }
 
 }

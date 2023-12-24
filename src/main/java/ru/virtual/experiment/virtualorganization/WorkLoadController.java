@@ -6,7 +6,15 @@ public class WorkLoadController {
     private double planningHorizon;// Создается переменная для определения горизонта планирования.
     private int numberOfSubjects;// Переменная для определения численности персонала.
     private int numberOfOperation;// Переменная для определения количества элементарных операций технологического процесса (среднее значение на одного сотрудника).
-    private double budgetWorkTime;
+    private double budgetWorkTime;// Переменная для определения бюджета рабочего времени организации в целом.
+
+    public double getBudgetWorkTime() {
+        return budgetWorkTime;
+    }
+
+    public void setBudgetWorkTime(double planningHorizon) {
+        this.budgetWorkTime = planningHorizon * numberOfSubjects;
+    }
 
     public int getIterationNumb() {
         return iterationNumb;
