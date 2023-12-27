@@ -10,5 +10,5 @@ public interface SubjectInterface {
     double getEmployeeKompetence(int idEmployee, int idOperation);// Метод для поиска компетенции по id сотрудника и id номера операции.
     double getMinKompetence(int id);// Метод для поиска минимальной компетенции по номеру операции.
     double employeeWorkloadTime(double directWorkTime, double PlanningHorizon, double employeeKompetence, int idOperation, int idEmployee);// Метод, который возвращает время загруженности одного сотрудника.
-    double getLoadFactor(int idEmployee, double PlanningHorizon);// Метод, который возвращает коэффициент загруженности одного сотрудника.
+    double getLoadFactor(int idEmployee);// Метод, который возвращает коэффициент загруженности одного сотрудника.
 }

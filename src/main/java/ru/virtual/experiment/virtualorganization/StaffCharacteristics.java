@@ -100,9 +100,9 @@ public class StaffCharacteristics implements SubjectInterface{
     }
 
     @Override
-    public double getLoadFactor(int idEmployee, double PlanningHorizon) {
+    public double getLoadFactor(int idEmployee) {
 
-        return doubleMap.get(idEmployee).getRealEmployeeWorkloadTime() / PlanningHorizon;
+        return doubleMap.get(idEmployee).getLoadFactor();
     }
 
 }
