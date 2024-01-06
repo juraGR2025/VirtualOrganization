@@ -1,4 +1,4 @@
-package ru.virtual.experiment.virtualorganization;
+package ru.virtual.experiment.virtualorganization.models;
 
 public class Employee {
     double realEmployeeWorkloadTime;// Реальное время загруженности сотрудника.

@@ -1,8 +1,14 @@
-package ru.virtual.experiment.virtualorganization;
+package ru.virtual.experiment.virtualorganization.models;
+
+import ru.virtual.experiment.virtualorganization.interfaces.BusinessProcessInterface;
 
 import java.util.Random;
 
-public class BusinessCharacteristics implements BusinessProcessInterface{
+public class BusinessCharacteristics implements BusinessProcessInterface {
+    public void setDurationMap(double[] durationMap) {
+        this.durationMap = durationMap;
+    }
+
     private double[]durationMap;// Создаем одномерный массив для хранения значений длительности элементарных операций.
     private double planningHorizon;// Создается переменная для определения горизонта планирования.
     private int numberOfSubjects;// Переменная для определения численности персонала.
@@ -14,8 +20,10 @@ public class BusinessCharacteristics implements BusinessProcessInterface{
     public BusinessCharacteristics(int numberOfSubjects, double planningHorizon, int numberOfOperation) {
         this.planningHorizon = planningHorizon;
         this.numberOfOperation = numberOfOperation;
+        this.numberOfSubjects = numberOfSubjects;
         this.globalNumberOfOperation = numberOfSubjects * numberOfOperation;
-        this.budgetWorkTime = planningHorizon * this.globalNumberOfOperation;
+        this.budgetWorkTime = this.planningHorizon * this.numberOfSubjects;
+        durationMap = new double[numberOfSubjects * numberOfOperation];
         setDurationOfOperations(this.budgetWorkTime);
     }
 
@@ -74,12 +82,14 @@ public class BusinessCharacteristics implements BusinessProcessInterface{
 
     @Override
     public void setDurationOfOperations(double budgetWorkTime) {
+
         double duration = budgetWorkTime;
         for(int i = 0; i < globalNumberOfOperation; i++){
             if(i == globalNumberOfOperation - 1){
                 durationMap[i] = duration;
             }else{
-                durationMap[i] = rand.nextDouble(duration);
+                durationMap[i] = rand.nextDouble(duration) / (numberOfSubjects + 1);// Получаем карту продолжительности выполнения технологических операций,
+                //назначенных директивно.
                 duration = duration - durationMap[i];
             }
         }

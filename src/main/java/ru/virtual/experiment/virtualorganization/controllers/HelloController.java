@@ -1,4 +1,4 @@
-package ru.virtual.experiment.virtualorganization;
+package ru.virtual.experiment.virtualorganization.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

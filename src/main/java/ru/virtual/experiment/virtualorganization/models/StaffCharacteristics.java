@@ -1,17 +1,20 @@
-package ru.virtual.experiment.virtualorganization;
+package ru.virtual.experiment.virtualorganization.models;
 
+import ru.virtual.experiment.virtualorganization.interfaces.SubjectInterface;
+
+import java.util.HashMap;
 import java.util.Map;
 
-public class StaffCharacteristics implements SubjectInterface{
+public class StaffCharacteristics implements SubjectInterface {
     // Задаем поля класса.
     private int numberOfSubjects;// Переменная для определения численности персонала.
     private int numberOfOperation;// Переменная для определения количества элементарных операций технологического процесса (среднее значение на одного сотрудника).
-    Map<Integer, Employee> doubleMap;// Создаем hash map для хранения пар id сотрудника - уровень его загруженности.
+    Map<Integer, Employee> doubleMap = new HashMap<>();// Создаем hash map для хранения пар id сотрудника - уровень его загруженности.
 
     private double[][]kompetence;// Создаем двумерный массив для хранения показателей компетенций персонала.
 
     public StaffCharacteristics(int numberOfSubjects, int numberOfOperation) {
-        setKompetence(NumberOfSubjects, NumberOfOperation);
+        setKompetence(numberOfSubjects, numberOfOperation);
     }
 
     public void StaffCharacteristics(){
@@ -30,8 +33,8 @@ public class StaffCharacteristics implements SubjectInterface{
 
 
     @Override
-    public void setNumberOfSubjects(int NumberOfSubjects) {
-    this.numberOfSubjects = NumberOfSubjects;
+    public void setNumberOfSubjects(int numberOfSubjects) {
+    this.numberOfSubjects = numberOfSubjects;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class StaffCharacteristics implements SubjectInterface{
     public void setKompetence(int NumberOfSubjects, int NumberOfOperation) {
         kompetence = new double[NumberOfSubjects][NumberOfOperation * NumberOfSubjects];
         for(int i = 0; i < NumberOfSubjects; i++){
-            for(int j = 0; j < NumberOfSubjects * NumberOfSubjects; j++){
+            for(int j = 0; j < NumberOfSubjects * NumberOfOperation; j++){
                 kompetence[i][j] = Math.random();
             }
         }
@@ -69,6 +72,7 @@ public class StaffCharacteristics implements SubjectInterface{
     @Override
     public double getEmployeeKompetence(int idEmployee, int idOperation) {
         double employeeKompetence = kompetence[idEmployee][idOperation];
+
         return employeeKompetence;
     }
 
@@ -83,15 +87,19 @@ public class StaffCharacteristics implements SubjectInterface{
         return min;
     }
 
-    public void setKompetence(double[][] kompetence) {
-        this.kompetence = kompetence;
-    }
-
     @Override
     public double employeeWorkloadTime(double directWorkTime, double PlanningHorizon, double employeeKompetence, int idOperation, int idEmployee) {
         double empWorkT = directWorkTime + directWorkTime * (1 - employeeKompetence);
-        double realEmployeeWorkloadTime = doubleMap.get(idEmployee).getRealEmployeeWorkloadTime() + empWorkT;
+        double realEmployeeWorkloadTime = 0;
         Employee emp = new Employee();
+
+        if(doubleMap.containsKey(idEmployee)){// Проверяем наличие ключа idEmployee в doubleMap.
+            realEmployeeWorkloadTime = doubleMap.get(idEmployee).getRealEmployeeWorkloadTime() + empWorkT;
+        }
+        else{// Если ключа нет, получаем значение загруженности для нового объекта класса Employee.
+            realEmployeeWorkloadTime = empWorkT;
+        }
+
         emp.setRealEmployeeWorkloadTime(realEmployeeWorkloadTime);
         double loadFactor = realEmployeeWorkloadTime / PlanningHorizon;
         emp.setLoadFactor(loadFactor);

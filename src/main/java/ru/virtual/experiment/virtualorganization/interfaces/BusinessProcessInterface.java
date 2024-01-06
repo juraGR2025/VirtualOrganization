@@ -1,4 +1,4 @@
-package ru.virtual.experiment.virtualorganization;
+package ru.virtual.experiment.virtualorganization.interfaces;
 
 public interface BusinessProcessInterface {
     void setDirectWorkLoad(double budgetWorkTime);// Метод определяет бюджет рабочего времени, заданный директивно.
