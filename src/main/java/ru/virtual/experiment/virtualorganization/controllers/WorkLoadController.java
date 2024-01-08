@@ -79,10 +79,6 @@ public class WorkLoadController {
         double realBudgetTime = 0;
         double [] duration = business.getDurationMap();
 
-        for(int i = 0; i < numberOfOperation * numberOfSubjects; i++) {
-            System.out.print(duration[i] + " ");
-        }
-        System.out.println();
         double sum = 0;
         for (int i = 0; i < numberOfOperation * numberOfSubjects; i++) {
             sum = sum + duration[i];
@@ -101,4 +97,9 @@ public class WorkLoadController {
         return realBudgetTime;// Метод возвращает реальный бюджет времени, затраченный на выполнение рабочих операций.
     }
 
+    public int getExceedingBudgetTimeAsPercentage(){
+     int percentage = 0;
+        percentage = (int) (this.getRealBudgetTime() / this.budgetWorkTime) * 100;
+    return percentage;
+    }
 }
