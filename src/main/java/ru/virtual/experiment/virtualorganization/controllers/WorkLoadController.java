@@ -27,7 +27,7 @@ public class WorkLoadController {
         // Создаем экземпляры классов StaffCharacteristics и BusinessCharacteristics для определения параметров модели.
         staff = new StaffCharacteristics(numberOfSubjects, numberOfOperation);
         business = new BusinessCharacteristics(numberOfSubjects, planningHorizon, numberOfOperation);
-
+        business.setRealWorkLoad(numberOfOperation * numberOfSubjects);
     }
 
     public double getBudgetWorkTime() {
@@ -75,8 +75,9 @@ public class WorkLoadController {
     int cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер в процессоре.
 
 // Расчитываем продолжительность выполнения операций компетентными сотрудниками.
-    public double getRealBudgetTime(){
+    public double setRealBudgetTime(){
         double realBudgetTime = 0;
+        int idMaxKompetence = 0;
         double [] duration = business.getDurationMap();
 
         double sum = 0;
@@ -85,13 +86,19 @@ public class WorkLoadController {
         }
         System.out.println("The amount: " + sum);
 
-        for(int i = 0; i < numberOfOperation * numberOfSubjects; i++){
-            realBudgetTime = realBudgetTime + duration[i] + duration[i] * staff.getEmployeeKompetence(staff.getIdMaxKompetence(i), i);
-// Метод заполняет Map<Integer, Employee> doubleMap.
-            staff.employeeWorkloadTime(duration[i], planningHorizon, staff.getEmployeeKompetence(staff.getIdMaxKompetence(i), i), i, staff.getIdMaxKompetence(i));
 
+        for(int i = 0; i < (numberOfOperation * numberOfSubjects); i++){
+
+            idMaxKompetence = staff.getIdMaxKompetence(i);
+
+            realBudgetTime = realBudgetTime + duration[i] + duration[i] * staff.getEmployeeKompetence(idMaxKompetence, i);
+
+            System.out.println("id: " + idMaxKompetence);
+
+// Метод заполняет Map<Integer, Employee> doubleMap.
+            staff.employeeWorkloadTime(duration[i], planningHorizon, staff.getEmployeeKompetence(idMaxKompetence, i), i, idMaxKompetence);
     }
-        business.setRealWorkLoad(numberOfOperation * numberOfSubjects);
+
         realBudgetTime = realBudgetTime + business.getRealWorkLoad();
 
         return realBudgetTime;// Метод возвращает реальный бюджет времени, затраченный на выполнение рабочих операций.
@@ -99,7 +106,7 @@ public class WorkLoadController {
 
     public int getExceedingBudgetTimeAsPercentage(){
      int percentage = 0;
-        percentage = (int) (this.getRealBudgetTime() / this.budgetWorkTime) * 100;
+        percentage = (int) (this.setRealBudgetTime() / this.budgetWorkTime) * 100;
     return percentage;
     }
 }

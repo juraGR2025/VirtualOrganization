@@ -14,7 +14,9 @@ public class StaffCharacteristics implements SubjectInterface {
     private double[][]kompetence;// Создаем двумерный массив для хранения показателей компетенций персонала.
 
     public StaffCharacteristics(int numberOfSubjects, int numberOfOperation) {
-        setKompetence(numberOfSubjects, numberOfOperation);
+        this.numberOfSubjects = numberOfSubjects;
+        this.numberOfOperation = numberOfOperation;
+        this.setKompetence(numberOfSubjects, numberOfOperation);
     }
 
     public void StaffCharacteristics(){
@@ -47,10 +49,10 @@ public class StaffCharacteristics implements SubjectInterface {
     }
 
     @Override
-    public void setKompetence(int NumberOfSubjects, int NumberOfOperation) {
-        kompetence = new double[NumberOfSubjects][NumberOfOperation * NumberOfSubjects];
-        for(int i = 0; i < NumberOfSubjects; i++){
-            for(int j = 0; j < NumberOfSubjects * NumberOfOperation; j++){
+    public void setKompetence(int numberOfSubjects, int numberOfOperation) {
+        kompetence = new double[numberOfSubjects][numberOfOperation * numberOfSubjects];
+        for(int i = 0; i < numberOfSubjects; i++){
+            for(int j = 0; j < numberOfSubjects * numberOfOperation; j++){
                 kompetence[i][j] = Math.random();
             }
         }
@@ -72,7 +74,6 @@ public class StaffCharacteristics implements SubjectInterface {
     @Override
     public double getEmployeeKompetence(int idEmployee, int idOperation) {
         double employeeKompetence = kompetence[idEmployee][idOperation];
-
         return employeeKompetence;
     }
 
