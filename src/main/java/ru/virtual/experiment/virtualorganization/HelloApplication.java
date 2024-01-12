@@ -20,11 +20,13 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        WorkLoadController workLoad = new WorkLoadController(10, 10, 20.0);
+        WorkLoadController workLoad = new WorkLoadController(10, 50000, 20.0);
         launch();
 
-        String str = "Work completion time: " + workLoad.setRealBudgetTime();
+        String str = "Work completion time: " + workLoad.getRealBudgetWorkTime();
         System.out.println(str);
+        workLoad.getExceedingBudgetTimeAsPercentage();
+        System.out.println(workLoad.theNeedForEmployees());
     }
 
 }

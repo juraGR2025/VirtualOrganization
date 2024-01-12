@@ -10,6 +10,7 @@ public class WorkLoadController {
     private int numberOfSubjects;// Переменная для определения численности персонала.
     private int numberOfOperation;// Переменная для определения количества элементарных операций технологического процесса (среднее значение на одного сотрудника).
     private double budgetWorkTime;// Переменная для определения бюджета рабочего времени организации в целом.
+    private double realBudgetWorkTime;// Переменная для определения реального (с учетом компетентности персонала) бюджета рабочего времени организации в целом.
     StaffCharacteristics staff; // Объявляем в качестве переменных экземпляры классов StaffCharacteristics
     BusinessCharacteristics business; // и BusinessCharacteristics.
     // Далее пустой конструктор.
@@ -28,6 +29,8 @@ public class WorkLoadController {
         staff = new StaffCharacteristics(numberOfSubjects, numberOfOperation);
         business = new BusinessCharacteristics(numberOfSubjects, planningHorizon, numberOfOperation);
         business.setRealWorkLoad(numberOfOperation * numberOfSubjects);
+        this.calculateRealBudgetTime();// Обращаемся к методу для расчета realBudgetWorkTime.
+
     }
 
     public double getBudgetWorkTime() {
@@ -70,43 +73,50 @@ public class WorkLoadController {
         this.numberOfOperation = numberOfOperation;
     }
 
+    public double getRealBudgetWorkTime() {
+        return realBudgetWorkTime;
+    }
+
+    public void setRealBudgetWorkTime(double realBudgetWorkTime) {
+        this.realBudgetWorkTime = realBudgetWorkTime;
+    }
+
 // Далее происходит расчет показателей делового процесса:
 
     int cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер в процессоре.
 
 // Расчитываем продолжительность выполнения операций компетентными сотрудниками.
-    public double setRealBudgetTime(){
+    public void calculateRealBudgetTime(){
         double realBudgetTime = 0;
         int idMaxKompetence = 0;
         double [] duration = business.getDurationMap();
 
-        double sum = 0;
-        for (int i = 0; i < numberOfOperation * numberOfSubjects; i++) {
-            sum = sum + duration[i];
-        }
-        System.out.println("The amount: " + sum);
-
-
         for(int i = 0; i < (numberOfOperation * numberOfSubjects); i++){
 
             idMaxKompetence = staff.getIdMaxKompetence(i);
-
-            realBudgetTime = realBudgetTime + duration[i] + duration[i] * staff.getEmployeeKompetence(idMaxKompetence, i);
-
-            System.out.println("id: " + idMaxKompetence);
+            realBudgetTime = realBudgetTime + duration[i] + duration[i] * (1 - staff.getEmployeeKompetence(idMaxKompetence, i));
 
 // Метод заполняет Map<Integer, Employee> doubleMap.
             staff.employeeWorkloadTime(duration[i], planningHorizon, staff.getEmployeeKompetence(idMaxKompetence, i), i, idMaxKompetence);
     }
+            realBudgetTime = realBudgetTime + business.getRealWorkLoad();
 
-        realBudgetTime = realBudgetTime + business.getRealWorkLoad();
-
-        return realBudgetTime;// Метод возвращает реальный бюджет времени, затраченный на выполнение рабочих операций.
+        this.setRealBudgetWorkTime(realBudgetTime);
     }
 
     public int getExceedingBudgetTimeAsPercentage(){
      int percentage = 0;
-        percentage = (int) (this.setRealBudgetTime() / this.budgetWorkTime) * 100;
+        percentage = (int) ((this.getRealBudgetWorkTime() / this.budgetWorkTime) * 100);
+        System.out.println("percentage: " + percentage);
     return percentage;
     }
+
+    public double theNeedForEmployees(){
+        double needForEmployees = 0;
+
+        needForEmployees = this.realBudgetWorkTime / this.planningHorizon;
+
+        return needForEmployees;
+    }
+
 }
