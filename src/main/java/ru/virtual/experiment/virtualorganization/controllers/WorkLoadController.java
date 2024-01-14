@@ -99,9 +99,29 @@ public class WorkLoadController {
 // Метод заполняет Map<Integer, Employee> doubleMap.
             staff.employeeWorkloadTime(duration[i], planningHorizon, staff.getEmployeeKompetence(idMaxKompetence, i), i, idMaxKompetence);
     }
+            staff.getDoubleMap();
             realBudgetTime = realBudgetTime + business.getRealWorkLoad();
 
         this.setRealBudgetWorkTime(realBudgetTime);
+    }
+    public double calculateArandomTimeBudget(){
+
+        double randomTimeBudget = 0;
+        int idRandomKompetence = 0;
+        double [] duration = business.getDurationMap();
+
+        for(int i = 0; i < (numberOfOperation * numberOfSubjects); i++){
+
+            idRandomKompetence = staff.getRandomKompetence(i);
+            randomTimeBudget = randomTimeBudget + duration[i] + duration[i] * (1 - staff.getEmployeeKompetence(idRandomKompetence, i));
+
+// Метод заполняет Map<Integer, Employee> doubleMap.
+            staff.employeeWorkloadTime(duration[i], planningHorizon, staff.getEmployeeKompetence(idRandomKompetence, i), i, idRandomKompetence);
+        }
+        staff.getDoubleMap();
+        randomTimeBudget = randomTimeBudget + business.getRealWorkLoad();
+
+        return randomTimeBudget;
     }
 
     public int getExceedingBudgetTimeAsPercentage(){
@@ -117,6 +137,18 @@ public class WorkLoadController {
         needForEmployees = this.realBudgetWorkTime / this.planningHorizon;
 
         return needForEmployees;
+    }
+
+    public double averageValueOfCompetenceIndicator(){
+        double averageValue = 0;
+        int idMaxKompetence = 0;
+        for(int i = 0; i < (numberOfOperation * numberOfSubjects); i++){
+            idMaxKompetence = staff.getIdMaxKompetence(i);
+            averageValue += staff.getEmployeeKompetence(idMaxKompetence, i);
+         }
+        averageValue = averageValue / (numberOfOperation * numberOfSubjects);
+        System.out.println("Средняя компетентность персонала: " + averageValue);
+        return averageValue;
     }
 
 }

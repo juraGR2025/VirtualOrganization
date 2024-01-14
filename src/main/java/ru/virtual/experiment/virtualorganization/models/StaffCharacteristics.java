@@ -4,6 +4,7 @@ import ru.virtual.experiment.virtualorganization.interfaces.SubjectInterface;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class StaffCharacteristics implements SubjectInterface {
     // Задаем поля класса.
@@ -24,6 +25,10 @@ public class StaffCharacteristics implements SubjectInterface {
     }
 
     public Map<Integer, Employee> getDoubleMap() {
+        for(Map.Entry<Integer, Employee> entry : doubleMap.entrySet()){
+
+            System.out.println(entry.getKey() + " : " + entry.getValue().getRealEmployeeWorkloadTime());
+        }
         return doubleMap;
     }
 
@@ -68,6 +73,13 @@ public class StaffCharacteristics implements SubjectInterface {
                 idEmployee = i;
             }
         }
+        return idEmployee;
+    }
+
+    public int getRandomKompetence(int id) { // Метод принимает номер операции на входе и возвращает номер сотрудника со случайно выбранной компетенцией по этой операции.
+        int idEmployee = 0;
+        Random random = new Random();
+        idEmployee = random.nextInt(numberOfSubjects);
         return idEmployee;
     }
 
