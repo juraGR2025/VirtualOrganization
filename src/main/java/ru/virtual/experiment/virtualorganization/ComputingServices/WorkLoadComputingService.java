@@ -1,9 +1,9 @@
-package ru.virtual.experiment.virtualorganization.controllers;
+package ru.virtual.experiment.virtualorganization.ComputingServices;
 
 import ru.virtual.experiment.virtualorganization.models.BusinessCharacteristics;
 import ru.virtual.experiment.virtualorganization.models.StaffCharacteristics;
 
-public class WorkLoadController {
+public class WorkLoadComputingService {
 
     private int iterationNumb = 100000;// Устанавливаем количество итераций для данных виртуального эксперимента.
     private double planningHorizon;// Создается переменная для определения горизонта планирования.
@@ -14,12 +14,12 @@ public class WorkLoadController {
     StaffCharacteristics staff; // Объявляем в качестве переменных экземпляры классов StaffCharacteristics
     BusinessCharacteristics business; // и BusinessCharacteristics.
     // Далее пустой конструктор.
-    public WorkLoadController() {
+    public WorkLoadComputingService() {
 
     }
 
     // Конструктор с параметрами.
-    public WorkLoadController(int numberOfSubjects, int numberOfOperation, double planningHorizon) {
+    public WorkLoadComputingService(int numberOfSubjects, int numberOfOperation, double planningHorizon) {
         this.budgetWorkTime = planningHorizon * numberOfSubjects;
         this.planningHorizon = planningHorizon;
         this.numberOfSubjects = numberOfSubjects;

@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ru.virtual.experiment.virtualorganization.controllers.WorkLoadController;
+import ru.virtual.experiment.virtualorganization.ComputingServices.WorkLoadComputingService;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        WorkLoadController workLoad = new WorkLoadController(10, 50000, 20.0);
+        WorkLoadComputingService workLoad = new WorkLoadComputingService(10, 50000, 20.0);
         launch();
 
         String str = "Work completion time: " + workLoad.getRealBudgetWorkTime();
