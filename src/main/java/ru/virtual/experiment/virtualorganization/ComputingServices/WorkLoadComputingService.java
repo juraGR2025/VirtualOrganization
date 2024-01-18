@@ -150,5 +150,4 @@ public class WorkLoadComputingService {
         System.out.println("Средняя компетентность персонала: " + averageValue);
         return averageValue;
     }
-
 }
