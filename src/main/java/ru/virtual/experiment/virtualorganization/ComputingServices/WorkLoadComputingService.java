@@ -107,6 +107,7 @@ public class WorkLoadComputingService {
     public double calculateArandomTimeBudget(){
 
         double randomTimeBudget = 0;
+        double sumOfSelectedRandomCompetencies = 0;
         int idRandomKompetence = 0;
         double [] duration = business.getDurationMap();
 
@@ -117,10 +118,12 @@ public class WorkLoadComputingService {
 
 // Метод заполняет Map<Integer, Employee> doubleMap.
             staff.employeeWorkloadTime(duration[i], planningHorizon, staff.getEmployeeKompetence(idRandomKompetence, i), i, idRandomKompetence);
+// Подсчитываем сумму выбранных случайных компетенций.
+            sumOfSelectedRandomCompetencies += staff.getEmployeeKompetence(idRandomKompetence, i);
         }
         staff.getDoubleMap();
         randomTimeBudget = randomTimeBudget + business.getRealWorkLoad();
-
+System.out.println("Случайно выбранные работы выполнялись со средней компетентностью: " + sumOfSelectedRandomCompetencies / (numberOfOperation * numberOfSubjects));
         return randomTimeBudget;
     }
 
