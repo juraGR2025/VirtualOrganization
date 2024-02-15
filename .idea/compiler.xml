@@ -9,8 +9,5 @@
         <module name="VirtualOrganization" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="VirtualOrganization" target="0" />
-    </bytecodeTargetLevel>
   </component>
 </project>
