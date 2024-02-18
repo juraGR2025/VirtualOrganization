@@ -27,7 +27,7 @@ public class StaffCharacteristics implements SubjectInterface {
     public Map<Integer, Employee> getDoubleMap() {
         for(Map.Entry<Integer, Employee> entry : doubleMap.entrySet()){
 
-            System.out.println(entry.getKey() + " : " + entry.getValue().getRealEmployeeWorkloadTime());
+   //         System.out.println(entry.getKey() + " : " + entry.getValue().getRealEmployeeWorkloadTime());
         }
         return doubleMap;
     }

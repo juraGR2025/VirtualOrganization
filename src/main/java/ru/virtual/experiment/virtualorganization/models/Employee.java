@@ -20,6 +20,4 @@ public class Employee {
         this.loadFactor = loadFactor;
     }
 
-
-
 }

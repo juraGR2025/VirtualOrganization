@@ -30,7 +30,7 @@ public class WorkLoadComputingService {
         business = new BusinessCharacteristics(numberOfSubjects, planningHorizon, numberOfOperation);
         business.setRealWorkLoad(numberOfOperation * numberOfSubjects);
         this.calculateRealBudgetTime();// Обращаемся к методу для расчета realBudgetWorkTime.
-
+        this.calculateArandomTimeBudget();// Обращаемся к методу для расчета calculateArandomTimeBudget случайно выбранных сотрудников для выполнения работ.
     }
 
     public double getBudgetWorkTime() {
@@ -123,14 +123,14 @@ public class WorkLoadComputingService {
         }
         staff.getDoubleMap();
         randomTimeBudget = randomTimeBudget + business.getRealWorkLoad();
-System.out.println("Случайно выбранные работы выполнялись со средней компетентностью: " + sumOfSelectedRandomCompetencies / (numberOfOperation * numberOfSubjects));
+//System.out.println("Случайно выбранные работы выполнялись со средней компетентностью: " + sumOfSelectedRandomCompetencies / (numberOfOperation * numberOfSubjects));
         return randomTimeBudget;
     }
 
     public int getExceedingBudgetTimeAsPercentage(){
      int percentage = 0;
         percentage = (int) ((this.getRealBudgetWorkTime() / this.budgetWorkTime) * 100);
-        System.out.println("percentage: " + percentage);
+ //       System.out.println("percentage: " + percentage);
     return percentage;
     }
 
@@ -150,7 +150,7 @@ System.out.println("Случайно выбранные работы выпол�
             averageValue += staff.getEmployeeKompetence(idMaxKompetence, i);
          }
         averageValue = averageValue / (numberOfOperation * numberOfSubjects);
-        System.out.println("Средняя компетентность персонала: " + averageValue);
+ //       System.out.println("Средняя компетентность персонала: " + averageValue);
         return averageValue;
     }
 }

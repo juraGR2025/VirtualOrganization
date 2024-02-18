@@ -25,6 +25,7 @@ public class HelloApplication extends Application {
 
         String str = "Work completion time: " + workLoad.getRealBudgetWorkTime();
         System.out.println(str);
+        System.out.println("Бюджет рабочего времени: " + 200);
         workLoad.getExceedingBudgetTimeAsPercentage();
         System.out.println("Потребность в персонале: " + workLoad.theNeedForEmployees());
         workLoad.averageValueOfCompetenceIndicator();
