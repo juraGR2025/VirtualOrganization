@@ -18,6 +18,6 @@ module ru.virtual.experiment.virtualorganization {
     opens ru.virtual.experiment.virtualorganization.controllers to javafx.fxml;
     exports ru.virtual.experiment.virtualorganization.models;
     opens ru.virtual.experiment.virtualorganization.models to javafx.fxml;
-    exports ru.virtual.experiment.virtualorganization.ComputingServices;
-    opens ru.virtual.experiment.virtualorganization.ComputingServices to javafx.fxml;
+    exports ru.virtual.experiment.virtualorganization.computingServices;
+    opens ru.virtual.experiment.virtualorganization.computingServices to javafx.fxml;
 }

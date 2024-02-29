@@ -1,4 +1,4 @@
-package ru.virtual.experiment.virtualorganization.ComputingServices;
+package ru.virtual.experiment.virtualorganization.computingServices;
 
 import ru.virtual.experiment.virtualorganization.models.BusinessCharacteristics;
 import ru.virtual.experiment.virtualorganization.models.StaffCharacteristics;
@@ -11,6 +11,7 @@ public class WorkLoadComputingService {
     private int numberOfOperation;// Переменная для определения количества элементарных операций технологического процесса (среднее значение на одного сотрудника).
     private double budgetWorkTime;// Переменная для определения бюджета рабочего времени организации в целом.
     private double realBudgetWorkTime;// Переменная для определения реального (с учетом компетентности персонала) бюджета рабочего времени организации в целом.
+    private double randomBudgetWorkTime;// еременная для определения продолжительности выполнения операций с учетом случайного распределения сотрудников на работы.
     StaffCharacteristics staff; // Объявляем в качестве переменных экземпляры классов StaffCharacteristics
     BusinessCharacteristics business; // и BusinessCharacteristics.
     // Далее пустой конструктор.
@@ -83,8 +84,6 @@ public class WorkLoadComputingService {
 
 // Далее происходит расчет показателей делового процесса:
 
-    int cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер в процессоре.
-
 // Расчитываем продолжительность выполнения операций компетентными сотрудниками.
     public void calculateRealBudgetTime(){
         double realBudgetTime = 0;
@@ -122,9 +121,9 @@ public class WorkLoadComputingService {
             sumOfSelectedRandomCompetencies += staff.getEmployeeKompetence(idRandomKompetence, i);
         }
         staff.getDoubleMap();
-        randomTimeBudget = randomTimeBudget + business.getRealWorkLoad();
+        randomBudgetWorkTime = randomTimeBudget + business.getRealWorkLoad();
 //System.out.println("Случайно выбранные работы выполнялись со средней компетентностью: " + sumOfSelectedRandomCompetencies / (numberOfOperation * numberOfSubjects));
-        return randomTimeBudget;
+        return randomBudgetWorkTime;
     }
 
     public int getExceedingBudgetTimeAsPercentage(){
@@ -138,6 +137,14 @@ public class WorkLoadComputingService {
         double needForEmployees = 0;
 
         needForEmployees = this.realBudgetWorkTime / this.planningHorizon;
+
+        return needForEmployees;
+    }
+
+    public double theNeedForEmployeesRandom(){
+        double needForEmployees = 0;
+
+        needForEmployees = this.randomBudgetWorkTime / this.planningHorizon;
 
         return needForEmployees;
     }
