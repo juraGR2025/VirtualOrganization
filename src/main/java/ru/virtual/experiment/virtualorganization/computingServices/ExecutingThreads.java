@@ -16,7 +16,7 @@ public class ExecutingThreads implements Runnable{
         this.numberOfOperation = numberOfOperation;
         this.planningHorizon = planningHorizon;
         cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер процессора на используемом компьютере.
-
+        poolComputingThreads = new PoolComputingThreads(numberOfSubjects, numberOfOperation, planningHorizon);
     }
 
     public void executingThreads() { // Метод для вычисления итоговых значений resultMatrixDuration, resultMatrixNeedForEmployees, resultMatrixRealDuration
@@ -25,11 +25,12 @@ public class ExecutingThreads implements Runnable{
 
         for (int i = 0; i < numberOfSubjects; i++) {
             for (int j = 0; j < numberOfOperation; j++) {
-                PoolComputingThreads poolComputingThreads = new PoolComputingThreads(i, j, planningHorizon);
+                poolComputingThreads = new PoolComputingThreads(i, j, planningHorizon);
                 executorService.submit(poolComputingThreads.fillingInTheMatrix(i, j));
+                executorService.shutdown();
             }
         }
-        executorService.shutdown();
+
         try {
             executorService.awaitTermination(1, TimeUnit.DAYS);
         } catch (InterruptedException e) {
