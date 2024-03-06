@@ -136,7 +136,7 @@ public class WorkLoadComputingService {
     public double theNeedForEmployees(){
         double needForEmployees = 0;
 
-        needForEmployees = this.realBudgetWorkTime / this.planningHorizon;
+        needForEmployees = this.getRealBudgetWorkTime() / this.planningHorizon;
 
         return needForEmployees;
     }

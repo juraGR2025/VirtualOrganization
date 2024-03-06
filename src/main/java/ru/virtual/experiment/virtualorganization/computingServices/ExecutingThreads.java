@@ -11,6 +11,11 @@ public class ExecutingThreads implements Runnable{
     private double planningHorizon;// Создается переменная для определения горизонта планирования.
     private PoolComputingThreads poolComputingThreads;
     private int cores;
+
+    Object lock1 = new Object();
+    Object lock2 = new Object();
+    Object lock3 = new Object();
+
     public ExecutingThreads(int numberOfSubjects, int numberOfOperation, double planningHorizon){
         this.numberOfSubjects = numberOfSubjects;
         this.numberOfOperation = numberOfOperation;
@@ -21,23 +26,20 @@ public class ExecutingThreads implements Runnable{
 
     public void executingThreads() { // Метод для вычисления итоговых значений resultMatrixDuration, resultMatrixNeedForEmployees, resultMatrixRealDuration
         //при помощи пула потоков.
-        ExecutorService executorService = Executors.newFixedThreadPool(cores); // Количество потоков должно быть не меньше, чем количество ядер процессора.
-
         for (int i = 0; i < numberOfSubjects; i++) {
             for (int j = 0; j < numberOfOperation; j++) {
-                poolComputingThreads = new PoolComputingThreads(i, j, planningHorizon);
-                executorService.submit(poolComputingThreads.fillingInTheMatrix(i, j));
-                executorService.shutdown();
+                fillingInTheMatrix(i, j);
             }
         }
-
-        try {
-            executorService.awaitTermination(1, TimeUnit.DAYS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    }
+    // Метод, который отвечает за заполнение матриц класса PoolComputingThreads - double[][]resultMatrixDuration, double[][]resultMatrixNeedForEmployees, double[][]resultMatrixRealDuration;
+    public void fillingInTheMatrix(int numberOfSubjects, int numberOfOperation) {
+        WorkLoadComputingService workLoadComputingService = new WorkLoadComputingService(numberOfSubjects, numberOfOperation, planningHorizon);
+        synchronized (lock1) {
+            poolComputingThreads.fillingInTheResultMatrixDuration(numberOfSubjects, numberOfOperation, workLoadComputingService.getBudgetWorkTime());
         }
     }
-    @Override
+        @Override
     public void run() {
         executingThreads();
     }

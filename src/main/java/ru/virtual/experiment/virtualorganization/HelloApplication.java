@@ -29,8 +29,7 @@ public class HelloApplication extends Application {
 
         launch();
         WorkLoadComputingService workLoad = new WorkLoadComputingService(numberOfSubjects, numberOfOperation, planningHorizon);
-        ExecutingThreads executing = new ExecutingThreads(numberOfSubjects, numberOfOperation, planningHorizon);
-        executing.run();
+
         String str = "Work completion time: " + workLoad.getRealBudgetWorkTime();
         System.out.println(str);
         System.out.println("Бюджет рабочего времени: " + (planningHorizon * numberOfSubjects));
@@ -39,7 +38,17 @@ public class HelloApplication extends Application {
         workLoad.averageValueOfCompetenceIndicator();
         System.out.println("Длительность выполнения операций при случайном распределении персонала: " + workLoad.calculateArandomTimeBudget());
         System.out.println("Потребность в персонале при его случайном распределении: " + workLoad.theNeedForEmployeesRandom());
-
+        ExecutingThreads executing = new ExecutingThreads(numberOfSubjects, numberOfOperation, planningHorizon);
+        executing.run();
+        //ExecutorService executorService = Executors.newFixedThreadPool(cores); // Количество потоков должно быть не меньше, чем количество ядер процессора.
+         /*executorService.submit(fillingInTheMatrix(i, j));
+                executorService.shutdown();*/
+        /*
+        try {
+            executorService.awaitTermination(1, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }*/
 
     }
 
