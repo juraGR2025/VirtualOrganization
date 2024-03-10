@@ -29,7 +29,7 @@ public class WorkLoadComputingService {
         // Создаем экземпляры классов StaffCharacteristics и BusinessCharacteristics для определения параметров модели.
         staff = new StaffCharacteristics(numberOfSubjects, numberOfOperation);
         business = new BusinessCharacteristics(numberOfSubjects, planningHorizon, numberOfOperation);
-        business.setRealWorkLoad(numberOfOperation * numberOfSubjects);
+        business.setDurationOfOperations(budgetWorkTime); //
         this.calculateRealBudgetTime();// Обращаемся к методу для расчета realBudgetWorkTime.
         this.calculateArandomTimeBudget();// Обращаемся к методу для расчета calculateArandomTimeBudget случайно выбранных сотрудников для выполнения работ.
     }

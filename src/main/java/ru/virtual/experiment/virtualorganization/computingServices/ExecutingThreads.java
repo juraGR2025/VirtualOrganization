@@ -1,15 +1,13 @@
 package ru.virtual.experiment.virtualorganization.computingServices;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import ru.virtual.experiment.virtualorganization.models.MatrixResult;
 
 public class ExecutingThreads implements Runnable{
 
     private int numberOfSubjects;
     private int numberOfOperation;
     private double planningHorizon;// Создается переменная для определения горизонта планирования.
-    private PoolComputingThreads poolComputingThreads;
+    private MatrixResult matrixResult;
     private int cores;
 
     Object lock1 = new Object();
@@ -20,8 +18,8 @@ public class ExecutingThreads implements Runnable{
         this.numberOfSubjects = numberOfSubjects;
         this.numberOfOperation = numberOfOperation;
         this.planningHorizon = planningHorizon;
-        cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер процессора на используемом компьютере.
-        poolComputingThreads = new PoolComputingThreads(numberOfSubjects, numberOfOperation, planningHorizon);
+        matrixResult = new MatrixResult(numberOfSubjects, numberOfOperation, planningHorizon);
+
     }
 
     public void executingThreads() { // Метод для вычисления итоговых значений resultMatrixDuration, resultMatrixNeedForEmployees, resultMatrixRealDuration
@@ -36,11 +34,12 @@ public class ExecutingThreads implements Runnable{
     public void fillingInTheMatrix(int numberOfSubjects, int numberOfOperation) {
         WorkLoadComputingService workLoadComputingService = new WorkLoadComputingService(numberOfSubjects, numberOfOperation, planningHorizon);
         synchronized (lock1) {
-            poolComputingThreads.fillingInTheResultMatrixDuration(numberOfSubjects, numberOfOperation, workLoadComputingService.getBudgetWorkTime());
+            matrixResult.fillingInTheResultMatrixDuration(numberOfSubjects, numberOfOperation, workLoadComputingService.getBudgetWorkTime());
         }
     }
         @Override
     public void run() {
         executingThreads();
+
     }
 }

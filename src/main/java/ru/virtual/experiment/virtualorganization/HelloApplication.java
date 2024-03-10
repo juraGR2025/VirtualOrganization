@@ -5,10 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.virtual.experiment.virtualorganization.computingServices.ExecutingThreads;
-import ru.virtual.experiment.virtualorganization.computingServices.PoolComputingThreads;
 import ru.virtual.experiment.virtualorganization.computingServices.WorkLoadComputingService;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class HelloApplication extends Application {
     @Override
@@ -25,7 +27,7 @@ public class HelloApplication extends Application {
         int numberOfSubjects = 10;
         int numberOfOperation = 1000;
         double planningHorizon = 20;
-
+        int cores; // Переменная для определения количества ядер процессора на используемом компьютере.
 
         launch();
         WorkLoadComputingService workLoad = new WorkLoadComputingService(numberOfSubjects, numberOfOperation, planningHorizon);
@@ -39,17 +41,19 @@ public class HelloApplication extends Application {
         System.out.println("Длительность выполнения операций при случайном распределении персонала: " + workLoad.calculateArandomTimeBudget());
         System.out.println("Потребность в персонале при его случайном распределении: " + workLoad.theNeedForEmployeesRandom());
         ExecutingThreads executing = new ExecutingThreads(numberOfSubjects, numberOfOperation, planningHorizon);
-        executing.run();
-        //ExecutorService executorService = Executors.newFixedThreadPool(cores); // Количество потоков должно быть не меньше, чем количество ядер процессора.
-         /*executorService.submit(fillingInTheMatrix(i, j));
-                executorService.shutdown();*/
-        /*
-        try {
-            executorService.awaitTermination(1, TimeUnit.DAYS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }*/
 
+        cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер процессора на используемом компьютере.
+        ExecutorService executorService = Executors.newFixedThreadPool(cores); // Количество потоков должно быть не меньше, чем количество ядер процессора.
+        for (int i = 0; i < numberOfSubjects; i++) {
+            for (int j = 0; j < numberOfOperation; j++) {
+                executorService.submit(executing);
+                executorService.shutdown();
+                try {
+                    executorService.awaitTermination(1, TimeUnit.DAYS);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
-
 }

@@ -13,6 +13,7 @@ public class StaffCharacteristics implements SubjectInterface {
     Map<Integer, Employee> doubleMap = new HashMap<>();// Создаем hash map для хранения пар id сотрудника - уровень его загруженности.
 
     private double[][]kompetence;// Создаем двумерный массив для хранения показателей компетенций персонала.
+    public void StaffCharacteristics(){}
 
     public StaffCharacteristics(int numberOfSubjects, int numberOfOperation) {
         this.numberOfSubjects = numberOfSubjects;
@@ -20,22 +21,14 @@ public class StaffCharacteristics implements SubjectInterface {
         this.setKompetence(numberOfSubjects, numberOfOperation);
     }
 
-    public void StaffCharacteristics(){
-
-    }
-
     public Map<Integer, Employee> getDoubleMap() {
         for(Map.Entry<Integer, Employee> entry : doubleMap.entrySet()){
-
-   //         System.out.println(entry.getKey() + " : " + entry.getValue().getRealEmployeeWorkloadTime());
         }
         return doubleMap;
     }
 
     public void setDoubleMap(Map<Integer, Employee> doubleMap) {
-
         this.doubleMap = doubleMap;
-
     }
 
 
@@ -76,7 +69,7 @@ public class StaffCharacteristics implements SubjectInterface {
         return idEmployee;
     }
 
-    public int getRandomKompetence(int id) { // Метод принимает номер операции на входе и возвращает номер сотрудника со случайно выбранной компетенцией по этой операции.
+    public int getRandomKompetence( int id) { // Метод принимает номер операции на входе и возвращает номер сотрудника со случайно выбранной компетенцией по этой операции.
         int idEmployee = 0;
         Random random = new Random();
         idEmployee = random.nextInt(numberOfSubjects);

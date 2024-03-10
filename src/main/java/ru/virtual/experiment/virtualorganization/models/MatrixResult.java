@@ -1,6 +1,6 @@
-package ru.virtual.experiment.virtualorganization.computingServices;
+package ru.virtual.experiment.virtualorganization.models;
 
-public class PoolComputingThreads { // Класс предназначен для расчета полей данных для отрисовки 3-х мерных графиков
+public class MatrixResult { // Класс предназначен для расчета полей данных для отрисовки 3-х мерных графиков
     private int numberOfSubjects;// Здесь устанавливается предел численности персонала для расчетов.
     private int numberOfOperation;// Здесь устанавливается предел количества элементарных операций технологического процесса (среднее значение на одного сотрудника).
     private double planningHorizon;// Создается переменная для определения горизонта планирования.
@@ -8,12 +8,10 @@ public class PoolComputingThreads { // Класс предназначен дл�
     private double[][]resultMatrixNeedForEmployees; // Результирующий массив для записи данных о текущей потребности в сотрудниках.
     private double[][]resultMatrixRealDuration; // Результирующий массив для записи данных  длительности выполнения совокупности оперций
     // при назначении на работы компетентных сотрудников.
-    private int cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер процессора на используемом компьютере.
 
-    PoolComputingThreads(){
+    MatrixResult(){}
 
-    }
-    public PoolComputingThreads(int numberOfSubjects, int numberOfOperation, double planningHorizon){
+    public MatrixResult(int numberOfSubjects, int numberOfOperation, double planningHorizon){
         this.numberOfSubjects = numberOfSubjects;
         this.numberOfOperation = numberOfOperation;
         this.planningHorizon = planningHorizon;
@@ -21,7 +19,6 @@ public class PoolComputingThreads { // Класс предназначен дл�
         resultMatrixNeedForEmployees = new double[numberOfSubjects][numberOfOperation]; // Результирующий массив для записи данных о текущей потребности в сотрудниках.
         resultMatrixRealDuration = new double[numberOfSubjects][numberOfOperation]; // Результирующий массив для записи данных  длительности выполнения совокупности оперций
         // при назначении на работы компетентных сотрудников.
-
     }
     public int getNumberOfSubjects() {
         return numberOfSubjects;
