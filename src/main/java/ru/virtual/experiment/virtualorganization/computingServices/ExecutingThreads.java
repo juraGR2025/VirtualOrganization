@@ -22,24 +22,15 @@ public class ExecutingThreads implements Runnable{
 
     }
 
-    public void executingThreads() { // Метод для вычисления итоговых значений resultMatrixDuration, resultMatrixNeedForEmployees, resultMatrixRealDuration
-        //при помощи пула потоков.
-        for (int i = 0; i < numberOfSubjects; i++) {
-            for (int j = 0; j < numberOfOperation; j++) {
-                fillingInTheMatrix(i, j);
-            }
-        }
-    }
-    // Метод, который отвечает за заполнение матриц класса PoolComputingThreads - double[][]resultMatrixDuration, double[][]resultMatrixNeedForEmployees, double[][]resultMatrixRealDuration;
-    public void fillingInTheMatrix(int numberOfSubjects, int numberOfOperation) {
-        WorkLoadComputingService workLoadComputingService = new WorkLoadComputingService(numberOfSubjects, numberOfOperation, planningHorizon);
-        synchronized (lock1) {
-            matrixResult.fillingInTheResultMatrixDuration(numberOfSubjects, numberOfOperation, workLoadComputingService.getBudgetWorkTime());
-        }
-    }
         @Override
     public void run() {
-        executingThreads();
-
+                WorkLoadComputingService workLoadComputingService = new WorkLoadComputingService(numberOfSubjects, numberOfOperation, planningHorizon);
+                for (int i = 0; i < numberOfSubjects; i++) {
+                    for (int j = 0; j < numberOfOperation; j++) {
+                        synchronized (lock1) {
+                            matrixResult.fillingInTheResultMatrixDuration(numberOfSubjects, numberOfOperation, workLoadComputingService.getBudgetWorkTime());
+                        }
+                    }
+                }
     }
 }
