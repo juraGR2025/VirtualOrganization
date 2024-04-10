@@ -40,18 +40,20 @@ public class HelloApplication extends Application {
         workLoad.averageValueOfCompetenceIndicator();
         System.out.println("Длительность выполнения операций при случайном распределении персонала: " + workLoad.calculateArandomTimeBudget());
         System.out.println("Потребность в персонале при его случайном распределении: " + workLoad.theNeedForEmployeesRandom());
-        ExecutingThreads executing = new ExecutingThreads(numberOfSubjects, numberOfOperation, planningHorizon);
+        // ExecutingThreads executing = new ExecutingThreads(numberOfSubjects, numberOfOperation, planningHorizon);
 
         cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер процессора на используемом компьютере.
         ExecutorService executorService = Executors.newFixedThreadPool(cores); // Количество потоков должно быть не меньше, чем количество ядер процессора.
-        for (int i = 0; i < numberOfSubjects; i++) {
-            for (int j = 0; j < numberOfOperation; j++) {
-                executorService.submit(executing);
-                executorService.shutdown();
-                try {
-                    executorService.awaitTermination(1, TimeUnit.DAYS);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        for (int k = 1; k <= cores; k++) {
+            for (int i = 0; i < numberOfSubjects; i++) {
+                for (int j = 0; j < numberOfOperation; j++) {
+                    executorService.submit(new ExecutingThreads(k, numberOfSubjects, numberOfOperation, planningHorizon));
+                    executorService.shutdown();
+                    try {
+                        executorService.awaitTermination(1, TimeUnit.DAYS);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
