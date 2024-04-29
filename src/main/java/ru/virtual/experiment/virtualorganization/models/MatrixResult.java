@@ -49,7 +49,7 @@ public class MatrixResult { // Класс предназначен для рас
         System.out.println("Матрица продолжительности выполнения операций: ");
         for(int i = 0; i < this.numberOfSubjects; i++){
             for(int j = 0; j < this.numberOfOperation; j++){
-                System.out.print(resultMatrixDuration[i][j]);
+                System.out.print('\t' + resultMatrixDuration[i][j] + " ");
             }System.out.println();
         }
     }
