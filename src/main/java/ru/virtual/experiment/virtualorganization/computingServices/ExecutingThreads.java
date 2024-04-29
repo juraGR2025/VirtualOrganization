@@ -2,37 +2,43 @@ package ru.virtual.experiment.virtualorganization.computingServices;
 
 import ru.virtual.experiment.virtualorganization.models.MatrixResult;
 
-public class ExecutingThreads implements Runnable{
+public class ExecutingThreads implements Runnable {
 
     private int numberOfSubjects;
     private int numberOfOperation;
     private double planningHorizon;// Создается переменная для определения горизонта планирования.
+    private WorkLoadComputingService workLoadComputingService; //
     private MatrixResult matrixResult;
-    int id; //
-    private int cores;
 
     final Object lock1 = new Object();
-    Object lock2 = new Object();
-    Object lock3 = new Object();
+    final Object lock2 = new Object();
+    final Object lock3 = new Object();
 
-    public ExecutingThreads(int id, int numberOfSubjects, int numberOfOperation, double planningHorizon){
-        this.id = id;
+    public ExecutingThreads(int numberOfSubjects, int numberOfOperation, double planningHorizon) {
         this.numberOfSubjects = numberOfSubjects;
         this.numberOfOperation = numberOfOperation;
         this.planningHorizon = planningHorizon;
         matrixResult = new MatrixResult(numberOfSubjects, numberOfOperation, planningHorizon);
 
+
     }
 
-        @Override
+    @Override
     public void run() {
-                WorkLoadComputingService workLoadComputingService = new WorkLoadComputingService(numberOfSubjects, numberOfOperation, planningHorizon);
-                for (int i = 0; i < numberOfSubjects; i++) {
-                    for (int j = 0; j < numberOfOperation; j++) {
-                        synchronized (lock1) {
-                           matrixResult.fillingInTheResultMatrixDuration(numberOfSubjects, numberOfOperation, workLoadComputingService.getRealBudgetWorkTime());
-                        }
-                    }
+
+        for (int i = 0; i < numberOfSubjects; i++) {
+
+            for (int j = 0; j < numberOfOperation; j++) {
+
+                    workLoadComputingService = new WorkLoadComputingService(i, j, planningHorizon);
+
+                    matrixResult.fillingInTheResultMatrixDuration(i, j, workLoadComputingService.getRealBudgetWorkTime());
+
+                    matrixResult.fillingInTheMatrixNeedForEmployees(i, j, workLoadComputingService.theNeedForEmployees());
+
+                    matrixResult.fillingInTheMatrixRealDuration(i, j, workLoadComputingService.getBudgetWorkTime());
                 }
+            }
+        matrixResult.printMatrixDuration();
     }
 }

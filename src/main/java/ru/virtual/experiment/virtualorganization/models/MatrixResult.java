@@ -45,6 +45,14 @@ public class MatrixResult { // Класс предназначен для рас
             resultMatrixRealDuration[numberOfSubjects][numberOfOperation] = realDuration; // Заполняется матрица resultMatrixRealDuration значениями продолжительности выполнения совокупности операций
             // при назначении на работы компетентных сотрудников.
         }
+    public void printMatrixDuration(){
+        System.out.println("Матрица продолжительности выполнения операций: ");
+        for(int i = 0; i < this.numberOfSubjects; i++){
+            for(int j = 0; j < this.numberOfOperation; j++){
+                System.out.print(resultMatrixDuration[i][j]);
+            }System.out.println();
+        }
+    }
 
 }
 

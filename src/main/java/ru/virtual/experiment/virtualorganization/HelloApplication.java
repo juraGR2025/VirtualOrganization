@@ -8,9 +8,7 @@ import ru.virtual.experiment.virtualorganization.computingServices.ExecutingThre
 import ru.virtual.experiment.virtualorganization.computingServices.WorkLoadComputingService;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class HelloApplication extends Application {
     @Override
@@ -23,7 +21,7 @@ public class HelloApplication extends Application {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
         int numberOfSubjects = 10;
         int numberOfOperation = 1000;
         double planningHorizon = 20;
@@ -44,18 +42,43 @@ public class HelloApplication extends Application {
 
         cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер процессора на используемом компьютере.
         ExecutorService executorService = Executors.newFixedThreadPool(cores); // Количество потоков должно быть не меньше, чем количество ядер процессора.
-        for (int k = 1; k <= cores; k++) {
-            for (int i = 0; i < numberOfSubjects; i++) {
-                for (int j = 0; j < numberOfOperation; j++) {
-                    executorService.submit(new ExecutingThreads(k, numberOfSubjects, numberOfOperation, planningHorizon));
-                    executorService.shutdown();
-                    try {
-                        executorService.awaitTermination(1, TimeUnit.DAYS);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
+
+/*for (int i = 0; i < 5; i++) {
+    executorService.submit(new MultithreadedCalculation(i));
+}
+        executorService.shutdown();
+        System.out.println("Все задачи приняты!");
+        executorService.awaitTermination(1, TimeUnit.DAYS);
+
+    }*/
+
+        for (int i = 0; i < 5; i++) { // i - количество итераций расчетов ExecutingThreads(int numberOfSubjects, int numberOfOperation, double planningHorizon).
+            executorService.submit(new ExecutingThreads(numberOfSubjects, numberOfOperation, planningHorizon));
         }
+        executorService.shutdown();
+        System.out.println("Все задачи приняты!");
+        executorService.awaitTermination(1, TimeUnit.DAYS);
+
     }
 }
+
+
+
+//
+//class MultithreadedCalculation implements Runnable{
+//
+//     private int id;
+//
+//     public MultithreadedCalculation(int id){
+//        this.id = id;
+//     }
+//    @Override
+//    public void run() {
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//        System.out.println("Номер задачи: " + this.id);
+//    }
+//}
