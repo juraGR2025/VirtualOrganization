@@ -18,7 +18,6 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
-
     }
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
@@ -43,14 +42,6 @@ public class HelloApplication extends Application {
         cores = Runtime.getRuntime().availableProcessors();// Получаем количество ядер процессора на используемом компьютере.
         ExecutorService executorService = Executors.newFixedThreadPool(cores); // Количество потоков должно быть не меньше, чем количество ядер процессора.
 
-/*for (int i = 0; i < 5; i++) {
-    executorService.submit(new MultithreadedCalculation(i));
-}
-        executorService.shutdown();
-        System.out.println("Все задачи приняты!");
-        executorService.awaitTermination(1, TimeUnit.DAYS);
-
-    }*/
 
         for (int i = 0; i < 5; i++) { // i - количество итераций расчетов ExecutingThreads(int numberOfSubjects, int numberOfOperation, double planningHorizon).
             executorService.submit(new ExecutingThreads(numberOfSubjects, numberOfOperation, planningHorizon));
@@ -61,24 +52,3 @@ public class HelloApplication extends Application {
 
     }
 }
-
-
-
-//
-//class MultithreadedCalculation implements Runnable{
-//
-//     private int id;
-//
-//     public MultithreadedCalculation(int id){
-//        this.id = id;
-//     }
-//    @Override
-//    public void run() {
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//        System.out.println("Номер задачи: " + this.id);
-//    }
-//}

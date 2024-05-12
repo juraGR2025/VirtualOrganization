@@ -2,7 +2,7 @@ package ru.virtual.experiment.virtualorganization.computingServices;
 
 import ru.virtual.experiment.virtualorganization.models.MatrixResult;
 
-public class ExecutingThreads implements Runnable {
+public class ExecutingThreads implements Runnable { // Выполняемая нить.
 
     private int numberOfSubjects;
     private int numberOfOperation;
@@ -19,8 +19,6 @@ public class ExecutingThreads implements Runnable {
         this.numberOfOperation = numberOfOperation;
         this.planningHorizon = planningHorizon;
         matrixResult = new MatrixResult(numberOfSubjects, numberOfOperation, planningHorizon);
-
-
     }
 
     @Override
